@@ -92,7 +92,7 @@ class Net(nn.Module):
 def test(model, test_loader, device):
     model.eval()
     test_loss = 0
-    correct = 0
+    #correct = 0
     with torch.no_grad():
         for data, target in test_loader:
             data, target = data.to(device), target.to(device)
@@ -102,7 +102,7 @@ def test(model, test_loader, device):
             #correct += pred.eq(target.view_as(pred)).sum().item()
 
     test_loss /= len(test_loader.dataset)
-    print("val_loss:{:.4f}".format(test_loss))
+    print("val_loss: {:.4f}".format(test_loss))
     #print("val_acc:{:.4f}".format(correct/len(test_loader.dataset)))   
 
 def train(args):
@@ -135,17 +135,22 @@ def train(args):
             #_average_gradients(model)
             optimizer.step()
             if (len(train_loader.dataset) - batch_idx*16) <= 16:
-                print("epoch:{}".format(epoch))
-                print("train_loss:{:.6f}".format(loss.item()))
+                print("epoch: {}".format(epoch))
+                print("train_loss: {:.6f}".format(loss.item()))
         print("Evaluating model")
         test(model, test_loader, device)
     save_model(model, args.model_dir)
 
 def save_model(model, model_dir):
-    path = os.path.join(model_dir, 'model.pth')
+    path = os.path.join(model_dir, 'model.pt')
+    m = torch.jit.script(Net())
+    m.save(path)
+    
     # recommended way from http://pytorch.org/docs/master/notes/serialization.html
-    torch.save(model.cpu().state_dict(), path)
-
+    # path = os.path.join(model_dir, 'model.pth')
+    # torch.save(model.cpu().state_dict(), path)
+    
+'''
 def model_fn(model_dir):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = torch.nn.DataParallel(Net())
@@ -153,6 +158,7 @@ def model_fn(model_dir):
     with open(os.path.join(model_dir, 'model.pth'), 'rb') as f:
         model.load_state_dict(torch.load(f))
     return model.to(device)
+'''
 
 ###### Main application  ############
 if __name__ == "__main__":

@@ -12,11 +12,10 @@ from collections import Counter
 import numpy as np
 import torchtext
 from sklearn import preprocessing
-#import tensorflow as tf
 
 def to_categorical(y, num_classes):
     """ 1-hot encodes a tensor """
-    return np.eye(num_classes, dtype='uint8')[y].astype(float)
+    return np.eye(num_classes, dtype='float32')[y]
 
 def download_dataset():
     os.makedirs("data", exist_ok=True)
@@ -43,8 +42,7 @@ def tokenize_and_pad_docs(df,columns):
     
     t = torchtext.data.Field(
       lower       = True,
-      init_token  = '<bos>',
-      eos_token   = '<eos>',
+      tokenize   = "basic_english",
       fix_length  = max_length
     )
     docs = list(map(t.preprocess, docs))
@@ -56,8 +54,7 @@ def tokenize_and_pad_docs(df,columns):
         for c in d:
             temp.append(t.vocab.stoi[c])
         numericalized_docs.append(temp)
-
-    return numericalized_docs, t
+    return np.array(numericalized_docs), t
 
 def get_word_embeddings(t, folder):
     os.makedirs(folder, exist_ok=True)

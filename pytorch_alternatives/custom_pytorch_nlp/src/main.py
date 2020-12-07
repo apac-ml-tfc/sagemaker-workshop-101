@@ -119,7 +119,6 @@ def train(args):
     if torch.cuda.is_available():
         device = torch.device('cuda')
     model.to(device)
-    model = torch.nn.DataParallel(model)
     optimizer = optim.RMSprop(model.parameters(), lr=args.learning_rate)
 
     for epoch in range(1, args.epochs + 1):
@@ -142,13 +141,15 @@ def train(args):
 def save_model(model, model_dir):
     path = os.path.join(model_dir, 'model.pth')
     x = torch.randint(0,10,(1,40))
+    model = model.cpu()
+    model.eval()
     m = torch.jit.trace(model, x)
     torch.jit.save(m, path)
 
 def model_fn(model_dir):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = torch.jit.load(os.path.join(model_dir, 'model.pth'))
-    return model.to(device)
+    return model
 
 ###### Main application  ############
 if __name__ == "__main__":

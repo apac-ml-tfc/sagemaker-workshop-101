@@ -4,22 +4,28 @@ This repository accompanies a hands-on training event to introduce data scientis
 
 ## Agenda
 
-Sessions in suggested order:
-
-* [builtin_algorithm_hpo_tabular](builtin_algorithm_hpo_tabular): Demonstrating how to use (and tune the hyperparameters of) a **pre-built, SageMaker-provided algorithm** (Applying XGBoost to tabular data)
-* (Optional) [custom_sklearn_rf](custom_sklearn_rf): Introductory example showing how to **bring your own algorithm**, using SageMaker's SKLearn container environment as a base (Predicting housing prices)
-* [custom_tensorflow_keras_nlp](custom_tensorflow_keras_nlp): Demonstrating how to **bring your own algorithm**, using SageMaker's TensorFlow container environment as a base (Classifying news headline text)
-* [migration_challenge_keras_image](migration_challenge_keras_image): A challenge to use what you've learned to **migrate an existing notebook** to SageMaker model training job and real-time inference endpoint deployment (Classifying MNIST DIGITS images)
+* [00 demo: builtin_algorithm_hpo_tabular](00-demo-builtin_algorithm_hpo_tabular): Demonstrating how to use (and tune the hyperparameters of) a **pre-built, SageMaker-provided algorithm** (Applying XGBoost to tabular data)
+* [01 lab:  custom_tensorflow_keras_nlp](01-lab-custom_tensorflow_keras_nlp): Demonstrating how to **bring your own algorithm**, using SageMaker's TensorFlow container environment as a base (Classifying news headline text)
+* [02 lab:  02-lab-auto_pilot_customer_churn](02-lab-auto_pilot_customer_churn): Demonstrating how to **use SageMaker Autopilot** model selection
+* (Optional) [03 lab: migration_challenge_keras_image](migration_challenge_keras_image): A challenge to use what you've learned to **migrate an existing notebook** to SageMaker model training job and real-time inference endpoint deployment (Classifying MNIST DIGITS images)
 
 
-## Deploying in Your Own Account
+## Setup
 
-Our standard setup for this workshop is detailed in [.ee.tpl.yaml](.ee.tpl.yaml), a [CloudFormation template](https://aws.amazon.com/cloudformation/resources/templates/) file. You can deploy the same via the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/home).
+1. Clone the repository into the Studio Environment
+    - Select the GitHub icon in the panel on the left and click "Clone Repository". Enter `https://github.com/tom5610/sagemaker-workshop-101.git`.
+    - Alternatively launch a **System terminal** (from the *Other* section of the launcher screen) and run `git clone https://github.com/tom5610/sagemaker-workshop-101.git`.
 
-If you've [onboarded to SageMaker Studio](https://docs.aws.amazon.com/sagemaker/latest/dg/gs-studio-onboard.html) and would like to use that **instead** of a Notebook Instance, you'll need to take the following additional steps:
+2. Enable Extension Manager
+    - Select \"*Settings > Enable Extension Manager (experimental)*\" from the toolbar, and confirm to enable it
+    - Click on the new jigsaw puzzle piece icon in the sidebar on the left, to open the Extension Manager
+    - Search for `@jupyter-widgets/jupyterlab-manager` (Scroll down - search results show up *below* the list of currently installed widgets!)
+    - Click \"**Install**\" below the widget's description, if not installed already
+    - Wait for the blue progress bar that appears by the search box
+    - You should be prompted \"*A build is needed to include the latest changes*\" - select \"**Rebuild**\"
+    - The progress bar should resume, and you should shortly see a \"Build Complete\" dialogue.
+    - Select \"**Reload**\" to reload the webpage
 
-1. To download this repository, launch a **System terminal** (from the *Other* section of the launcher screen) and run `git clone https://github.com/apac-ml-tfc/sagemaker-workshop-101`.
-2. To enable the widgets in the NLP example, navigate your System terminal to the folder with `cd sagemaker-workshop-101` and run `./init-studio.sh`. Note this **must** be run from a *System terminal* and **not** an *Image terminal* (other option on the launcher screen). Refresh your browser window when the script completes.
-3. You'll be asked to select a kernel when you first open each notebook, because the available kernels in Studio differ from those in Notebook Instances. Use **Python 3 (Data Science)** as standard and **Python 3 (TensorFlow CPU Optimized)** specifically for the 'local' notebooks in NLP and migration challenge folders (which fit TensorFlow models within the notebook itself).
+3. You'll be asked to select a kernel when you first open each notebook. Use **Python 3 (Data Science)** as standard and **Python 3 (TensorFlow CPU Optimized)** for the 'local' notebooks in NLP and migration challenge folders - they will TensorFlow models within the notebook itself.
 
-You can refer to the [*"How Are Amazon SageMaker Studio Notebooks Different from Notebook Instances?"*](https://docs.aws.amazon.com/sagemaker/latest/dg/notebooks-comparison.html) docs page for more details on differences between the Studio and Notebook Instance environments. As that page notes, SageMaker studio does not yet support [local mode](https://aws.amazon.com/blogs/machine-learning/use-the-amazon-sagemaker-local-mode-to-train-on-your-notebook-instance/): which we find can be useful to accelerate debugging in the migration challenge, and is one reason we typically run this session on Notebook Instances instead.
+You can refer to the [*"How Are Amazon SageMaker Studio Notebooks Different from Notebook Instances?"*](https://docs.aws.amazon.com/sagemaker/latest/dg/notebooks-comparison.html) docs page for more details on differences between the Studio and Notebook Instance environments.

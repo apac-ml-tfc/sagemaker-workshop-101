@@ -1,0 +1,4 @@
+phases:
+  build:
+    commands:
+      - run-workshop-tests

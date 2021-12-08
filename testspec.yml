@@ -1,4 +1,5 @@
 # Test specifications for the workshop's automated test runner
+# TODO: Confirm structure
 version: 0.1
 
 tree:
